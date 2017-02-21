@@ -35,7 +35,11 @@
    *
    * If you're not using "display: flex", you can remove this style.
    */
-  width: 100%;
+  
+  margin-left: 150px;
+  margin-top: 30px
+
+  
 }
 
 .CircularProgressbar .CircularProgressbar-path {
@@ -54,3 +58,8 @@
   dominant-baseline: middle;
   text-anchor: middle;
 }
+
+.parent {
+  position: relative;
+}
+

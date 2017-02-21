@@ -15,7 +15,7 @@ function getStoredUserData() {
 class App extends Component {
 	constructor(props, context) {
     super(props, context)
-    this.state = {poundsLost: 15}
+    this.state = {poundsLost: parseInt(getStoredUserData())}
 	this.onDecrease = this.onDecrease.bind(this)
 	this.onIncrease = this.onIncrease.bind(this)
   }
@@ -34,14 +34,15 @@ class App extends Component {
 	
   render() {
 	  
-	  console.log(this.state.poundsLost)
-    return (
-      <div className="App">
+	  var poundsLost = this.state.poundsLost
+	  return (
+      <div className="App parent">
 	  <div>
 		<button onClick={this.onDecrease}>Decrease</button>
+		<h4 className="text-center">{poundsLost}</h4>
 		<button onClick={this.onIncrease}>Increase</button>
-			</div>
-        <CircularProgressBar percentage={60} initialAnimation={true} stones={4} poundsLost={this.state.poundsLost}/>
+		</div>
+        <CircularProgressBar percentage={60} initialAnimation={false} stones={5} poundsLost={poundsLost} halfStone={true}/>
       </div>
     );
   }
