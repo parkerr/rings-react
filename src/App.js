@@ -56,22 +56,29 @@ class App extends Component {
 	  var poundsLost = this.state.poundsLost
 	  return (
        <div>   
-          <nav className="navbar navbar-default">
-              <div className="container-fluid">
-
-                  <div className="navbar-header">
-		<button className="navbar-btn btn btn-primary btn-sm" onClick={this.onDecrease}>Decrease</button>
-		<span className="text-center">{poundsLost}</span>
-		<button className="navbar-btn btn btn-primary btn-sm" onClick={this.onIncrease}>Increase</button>
-          { this.state.nickname ? <button className="navbar-btn btn btn-primary btn-sm pull-right" onClick={ this.onLogout }>Logout</button> : undefined }
+          
+    <nav className="navbar navbar-inverse">
+      <div className="container">
+        <div className="navbar-header">
+          <a className="navbar-brand" href="#">Hello {this.state.nickname}</a>
         </div>
-        </div>  
-        </nav>     
-	  <div>
-		
-		</div>
-        <CircularProgressBar percentage={60} initialAnimation={false} stones={5} poundsLost={poundsLost} halfStone={true}/>
+
+          { this.state.nickname ? <button className="navbar-btn btn btn-primary btn-sm navbar-right" onClick={ this.onLogout }>Logout</button> : undefined } 
+
       </div>
+    </nav>      
+    
+          
+        <div className="container-fluid">
+            <div className="row">    
+		        <button className="col-md-1 col-sm-1 col-offset-1 btn btn-primary btn-sm" onClick={this.onDecrease}>Decrease</button>
+		        <p className="col-md-1 col-sm-1">{poundsLost}</p>
+		        <button className="col-md-1 col-sm-1 btn btn-primary btn-sm" onClick={this.onIncrease}>Increase</button>
+            </div>
+        <div className="row">             
+        <CircularProgressBar percentage={60} initialAnimation={false} stones={5} poundsLost={poundsLost} halfStone={true}/></div>
+      </div>
+        </div>        
     );
     }
     return (
