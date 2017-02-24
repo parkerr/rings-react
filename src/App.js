@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import CircularProgressBar from './circles'
-
+import request from 'superagent'
 
 
 
@@ -29,6 +29,12 @@ class App extends Component {
 	this.onIncrease = this.onIncrease.bind(this)
   }
   
+  componentWillMount() {
+      if(this.state.nickname){
+         this.getUserData(this.state.nickname)  
+      } 
+  }
+  
   onLogout() {
     forgetStoredUserData()
     this.setState({...this.state, nickname: undefined})
@@ -37,18 +43,56 @@ class App extends Component {
   onLogin(nickname) {
     updateStoredUserData(nickname)
     this.setState({...this.state, nickname: nickname})
+    this.getUserData(nickname)  
  }
+
+ getUserData(nickname) {
+     var url = 'http://localhost:5000/api/nicknames/' + nickname
+     request.get(url)
+     .send()
+     .end((err, res) => {
+       if (err) {
+       }
+       else {
+         console.log(res)
+         const parsed = JSON.parse(res.text) 
+         this.setState({...this.state, poundsLost: parsed.poundsLost, stones: parsed.stones, showHalves: parsed.showHalves})
+       }
+     })
+   }
+
+ updateUserData(poundsLost,stones,showHalves){
+     var url = 'http://localhost:5000/api/nicknames/' + this.state.nickname
+     console.log(poundsLost)
+     
+     request.put(url)
+     .send({
+         poundsLost: poundsLost,
+         stones: stones,
+         showHalves: showHalves
+     })
+     .end((err, res) => {
+       if (err) {
+         console.error(err)
+       }
+       else {
+         const parsed = JSON.parse(res.text)
+           this.setState({...this.state, poundsLost: parsed.poundsLost, stones: parsed.stones, showHalves: parsed.showHalves})
+       }
+     })
+   }
+
 	
  onDecrease(){
 	 var newAmount = this.state.poundsLost - 1 
      this.setState({...this.state, poundsLost: newAmount})
-	 updateStoredUserData(newAmount)
+     this.updateUserData(newAmount,this.state.stones,this.state.showHalves)
  }	
 
  onIncrease(){
 	 var newAmount = this.state.poundsLost + 1 
      this.setState({...this.state, poundsLost: newAmount})
-	 updateStoredUserData(newAmount)	
+     this.updateUserData(newAmount,this.state.stones,this.state.showHalves)	
  }
 	
   render() {
@@ -62,16 +106,12 @@ class App extends Component {
         <div className="navbar-header">
           <a className="navbar-brand" href="#">Hello {this.state.nickname}</a>
         </div>
-
           { this.state.nickname ? <button className="navbar-btn btn btn-primary btn-sm navbar-right" onClick={ this.onLogout }>Logout</button> : undefined } 
-
       </div>
-    </nav>      
-    
-          
+    </nav>            
         <div className="container-fluid">
             <div className="row">    
-		        <button className="col-md-1 col-sm-1 col-offset-1 btn btn-primary btn-sm" onClick={this.onDecrease}>Decrease</button>
+		        <button className="col-md-1 col-sm-1 col-md-offset-1 col-sm-offset-1 btn btn-primary btn-sm" onClick={this.onDecrease}>Decrease</button>
 		        <p className="col-md-1 col-sm-1">{poundsLost}</p>
 		        <button className="col-md-1 col-sm-1 btn btn-primary btn-sm" onClick={this.onIncrease}>Increase</button>
             </div>
