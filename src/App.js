@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import CircularProgressBar from './circles'
 import request from 'superagent'
+import { Checkbox } from 'react-bootstrap';
 
 
 
@@ -47,7 +48,7 @@ class App extends Component {
  }
 
  getUserData(nickname) {
-     var url = 'http://localhost:5000/api/nicknames/' + nickname
+     var url = '/api/nicknames/' + nickname
      request.get(url)
      .send()
      .end((err, res) => {
@@ -62,7 +63,7 @@ class App extends Component {
    }
 
  updateUserData(poundsLost,stones,showHalves){
-     var url = 'http://localhost:5000/api/nicknames/' + this.state.nickname
+     var url = '/api/nicknames/' + this.state.nickname
      console.log(poundsLost)
      
      request.put(url)
@@ -114,6 +115,18 @@ class App extends Component {
 		        <button className="col-md-1 col-sm-1 col-md-offset-1 col-sm-offset-1 btn btn-primary btn-sm" onClick={this.onDecrease}>Decrease</button>
 		        <p className="col-md-1 col-sm-1">{poundsLost}</p>
 		        <button className="col-md-1 col-sm-1 btn btn-primary btn-sm" onClick={this.onIncrease}>Increase</button>
+          
+      <div className="settings-form form">
+        <div className="form-group">
+          <label htmlFor="stones">Stones:</label>
+          <div>
+            <input className="form-control" type="text" value={ this.state.stones} onChange={ this.onChangeNickname } id="nickname" />
+<div className="checkbox">
+  <Checkbox></Checkbox>
+</div>
+          </div>
+        </div>
+      </div>
             </div>
         <div className="row">             
         <CircularProgressBar percentage={60} initialAnimation={false} stones={5} poundsLost={poundsLost} halfStone={true}/></div>
