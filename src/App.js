@@ -21,11 +21,11 @@ function getStoredNickname() {
 
 
 class App extends Component {
-	constructor(props, context) {
-    super(props, context)
-    this.state = {nickname: getStoredNickname(), poundsLost:0, stones:0, showHalves:false}
-    this.onLogin = this.onLogin.bind(this)
-    this.onLogout = this.onLogout.bind(this)    
+    constructor(props, context) {
+        super(props, context)
+        this.state = {nickname: getStoredNickname(), poundsLost:0, stones:0, showHalves:false}
+        this.onLogin = this.onLogin.bind(this)
+        this.onLogout = this.onLogout.bind(this)    
 	this.onDecrease = this.onDecrease.bind(this)
 	this.onIncrease = this.onIncrease.bind(this)
   }
@@ -85,7 +85,7 @@ class App extends Component {
 
 	
  onDecrease(){
-	 var newAmount = this.state.poundsLost - 1 
+	var newAmount = this.state.poundsLost - 1 
      this.setState({...this.state, poundsLost: newAmount})
      this.updateUserData(newAmount,this.state.stones,this.state.showHalves)
  }	
